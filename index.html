@@ -27,28 +27,104 @@
         margin: 25px;
       }
 
+      div .row {
+        align-content: space-around;
+      }
+
       button {
         background-color: #008CBA;
         border: none;
         color: white;
-        padding: 15px 32px;
+        padding: 12px 25px;
         text-align: center;
         font-size: 16px;
       }
       button:hover {
-        background-color: #007CAF;
+        background-color: #919799;
       }
+
+      table {
+        width: 90%;
+        text-align: center;
+      }
+
+      thead {
+        background-color: lightcoral;
+      }
+
+      tbody {
+        background-color: lightsalmon;
+        border: solid black 3px;
+      }
+
+      thead th {
+        border-bottom: solid black 3px;
+        border-right: solid black 3px;
+      }
+
+      thead th:last-child {
+        border-right: none;
+      }
+
+      tbody td {
+        border-bottom: solid black 3px;
+        border-right: solid black 3px;
+      }
+
+      tbody td:last-child {
+        border-right: none;
+      }
+
+      table input {
+        width: 100%;
+        text-align: center;
+        background-color: lightsalmon;
+        border: none;
+      }
+      
+      table select {
+        width: 100%;
+        text-align: center;
+        background-color: lightsalmon;
+        border: none;
+      }
+      
     </style>
   </head>
 
   <body>
-    <p>Click the button to create a new PDF document with <code>pdf-lib</code></p>
-    <button onclick="createPdf()">Create PDF</button>
-    <p class="small">(Your browser will download the resulting file)</p>
+    <table>
+      <thead><tr><th>Anzahl</th><th>Produkt</th><th>Beschreibung</th></tr></thead>
+      <tbody id="tbody">
+        <tr>
+          <!--TODO there are elements missing in the select-->
+          <td><select name="anzahl"></select></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button onclick="append_row()">neue zeile hinzufügen</button>
+
+    <p>Click den button um das PDF zu erstelln.</p>
+
+    <div class="row">
+      <button onclick="downloadPDF()">PDF runterladen</button>
+      <button onclick="printPDF()">PDF drucken</button>
+    </div>
+
+    <p class="small">(der browser wird dann das pdf runterladen)</p>
   </body>
 
   <script>
     const { PDFDocument, StandardFonts, rgb } = PDFLib
+    const tableRow = '<tr><td><select name="anzahl"></select></td><td><input type="text"></td><td><input type="text"></td></tr>'
+
+    function append_row() {
+      conole.log("new row");
+      document.getElementById("#tbody").children.append_row(tableRow);
+    }
 
     async function createPdf() {
       // Create a new PDFDocument
@@ -74,10 +150,21 @@
       })
 
       // Serialize the PDFDocument to bytes (a Uint8Array)
-      const pdfBytes = await pdfDoc.save()
+      return await pdfDoc.save();
+    };
 
-			// Trigger the browser to download the PDF document
+    async function downloadPDF() {
+      const pdfBytes = await createPdf();
+
+      // Trigger the browser to download the PDF document
       download(pdfBytes, "pdf-lib_creation_example.pdf", "application/pdf");
-    }
+    };
+
+    async function printPDF() {
+      const pdfBytes = await createPdf();
+
+      // Trigger the browser to download the PDF document
+      print(pdfBytes);
+    };
   </script>
 </html>

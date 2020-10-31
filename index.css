@@ -1,0 +1,95 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 100%;               
+    background-color:black;
+    height: 2px;
+  }
+
+  p {
+    font-family: helvetica;
+    font-size: 24px;
+    text-align: center;
+    margin: 25px;
+  }
+
+  .small {
+    font-family: helvetica;
+    font-size: 18px;
+    text-align: center;
+    margin: 25px;
+  }
+
+  div .row {
+    align-content: space-around;
+  }
+
+  button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    text-align: center;
+    font-size: 16px;
+  }
+  button:hover {
+    background-color: #919799;
+  }
+
+  table {
+    width: 100%;
+    text-align: center;
+  }
+
+  thead {
+    background-color: lightcoral;
+  }
+
+  tbody {
+    background-color: lightsalmon;
+    border: solid black 3px;
+  }
+
+  thead th {
+    border-bottom: solid black 3px;
+    border-right: solid black 3px;
+  }
+
+  thead th:last-child {
+    border-right: none;
+  }
+
+  tbody td {
+    border-bottom: solid black 3px;
+    border-right: solid black 3px;
+  }
+
+  tbody td:last-child {
+    border-right: none;
+  }
+
+  table input {
+    width: 100%;
+    text-align: center;
+    background-color: lightsalmon;
+    border: none;
+  }
+  
+  table select {
+    width: 100%;
+    text-align: center;
+    background-color: lightsalmon;
+    border: none;
+  }
+
+  table select option {
+    text-align: center;
+  }
+  

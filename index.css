@@ -4,6 +4,18 @@ body {
     flex-direction: column;
   }
 
+  form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #pdfObjectViewer {
+    width: 90%;
+    height: 500px;
+  }
+
   hr {
     border: 0;
     clear:both;
@@ -28,6 +40,7 @@ body {
   }
 
   div .row {
+    display: inline-block;
     align-content: space-around;
   }
 
@@ -67,23 +80,27 @@ body {
   }
 
   tbody td {
+    width: 30%;
     border-bottom: solid black 3px;
     border-right: solid black 3px;
   }
 
+  tbody td:first-child {
+    width: 20%;
+  }
+
   tbody td:last-child {
     border-right: none;
+    width: 50%;
   }
 
   table input {
-    width: 100%;
     text-align: center;
     background-color: lightsalmon;
     border: none;
   }
   
   table select {
-    width: 100%;
     text-align: center;
     background-color: lightsalmon;
     border: none;

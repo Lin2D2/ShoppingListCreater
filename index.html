@@ -1,43 +1,47 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name='viewport' 
+     content='width=device-width, initial-scale=1.0, maximum-scale=1.0, 
+     user-scalable=0' >
     <link rel="stylesheet" href="index.css">
     <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
     <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.4/pdfobject.min.js" integrity="sha512-mW7siBAOOJTkMl77cTke1Krn+Wz8DJrjMzlKaorrGeGecq0DPUq28KgMrX060xQQOGjcl7MSSep+/1FOprNltw==" crossorigin="anonymous"></script>
 
     <script src="index.js"></script>
   </head>
 
   <body>
-    <p>Click den button um das PDF zu erstelln.</p>
-
+    <h1>ShoppingList</h1>
     <div class="row">
       <button id="downloadButton">PDF runterladen</button>
-      <button id="printButton" onclick="printPDF()">PDF drucken</button>
+      <button onclick="append_row()">neue zeile hinzufügen</button>
     </div>
-
-    <p class="small">(der browser wird dann das pdf runterladen)</p>
     <hr>
-    <button onclick="append_row()">neue zeile hinzufügen</button>
-    <table>
+    <table id="table">
       <thead><tr><th>Anzahl</th><th>Produkt</th><th>Beschreibung</th></tr></thead>
       <tbody id="tbody">
         <tr>
-          <td><select name="anzahl">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value=">">-></option>
-          </select></td>
+          <td>
+            <div class="row">
+              <input type="text" value="0">
+              <select name="unit">
+                <option value="st.">st.</option>
+                <option value="g">g</option>
+                <option value="kg">kg</option>
+                <option value="l">l</option>
+                <option value="not listed">not listed</option>
+              </select>
+            </div>
+          </td>
           <td><input type="text"></td>
           <td><input type="text"></td>
         </tr>
       </tbody>
     </table>
+    <hr>
+    <h2>Debug view</h2><button onclick="updatePDF(createPdf())">updatePDF</button>
+    <div id="pdfObjectViewer"></div>
   </body>
 </html>

@@ -1,19 +1,20 @@
 const { PDFDocument, StandardFonts, rgb } = PDFLib
     const tableRow = `<tr>
-          <td><select name="anzahl">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value=">">&rarr</option>
-          </select></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-        </tr>`
+    <td>
+      <div class="row">
+        <input type="text" value="0">
+        <select name="unit">
+          <option value="st.">st.</option>
+          <option value="g">g</option>
+          <option value="kg">kg</option>
+          <option value="l">l</option>
+          <option value="not listed">not listed</option>
+        </select>
+      </div>
+    </td>
+    <td><input type="text"></td>
+    <td><input type="text"></td>
+  </tr>`
     function append_row() {
       let tableBody = document.getElementById("tbody");
       let newRow = document.createElement('tr');
@@ -22,47 +23,115 @@ const { PDFDocument, StandardFonts, rgb } = PDFLib
     }
 
     async function createPdf() {
-      // Create a new PDFDocument
       const pdfDoc = await PDFDocument.create()
-
-      // Embed the Times Roman font
+      let page = pdfDoc.addPage()
       const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman)
-
-      // Add a blank page to the document
-      const page = pdfDoc.addPage()
-
-      // Get the width and height of the page
       const { width, height } = page.getSize()
+      const fontSize = 10
 
-      // Draw a string of text toward the top of the page
-      const fontSize = 30
-      page.drawText('Creating PDFs in JavaScript is awesome!', {
-        x: 50,
-        y: height - 4 * fontSize,
-        size: fontSize,
+      const title = 'Einkaufsliste';
+      page.drawText(title, {
+        x: width/2 - title.length*5,
+        y: height - 1.5 * 30,
+        size: 30,
         font: timesRomanFont,
-        color: rgb(0, 0.53, 0.71),
+        color: rgb(0, 0, 0),
       })
+      const tableChildren = document.getElementById("table").children.tbody.children
+      let items = [];
+      for (let child in tableChildren) {
+        if (tableChildren[child].children != null) {
+          let nummberValue = tableChildren[child].children[0].children[0].children[0].value;
+          let select = tableChildren[child].children[0].children[0].children[1];
+          let selectValue = select.options[select.selectedIndex].attributes[0].value;
+          let typeValue = tableChildren[child].children[1].children[0].value;
+          let descriptionValue = tableChildren[child].children[2].children[0].value;
+          items.push([nummberValue+" "+selectValue, typeValue, descriptionValue]);
+        }
+      }
+      let hightCounter = 790
+      for (let item in items) {
+        page.drawText(items[item][0], {
+          x: width/3  - 160,
+          y: hightCounter-30,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        })
+        // page.drawRectangle({
+        //   x: width/3  - 160,
+        //   y: hightCounter-35,
+        //   height: fontSize*2,
+        //   width: 48,
+        //   borderColor: rgb(0,0,0),
+        //   borderWidth: 1,
+        // })
+        page.drawText(items[item][1], {
+          x: width/3*2  - 310,
+          y: hightCounter-30,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        })
+        // page.drawRectangle({
+        //   x: width/3*2  - 310,
+        //   y: hightCounter-35,
+        //   height: fontSize*2,
+        //   width: 178,
+        //   borderColor: rgb(0,0,0),
+        //   borderWidth: 1,
+        // })
+        page.drawText(items[item][2], {
+          x: width/3*3 - 320,
+          y: hightCounter-30,
+          size: fontSize,
+          font: timesRomanFont,
+          color: rgb(0, 0, 0),
+        })
+        // page.drawRectangle({
+        //   x: width/3*3  - 330,
+        //   y: hightCounter-35,
+        //   height: fontSize*2,
+        //   width: 290,
+        //   borderColor: rgb(0,0,0),
+        //   borderWidth: 1,
+        // })
+        page.drawLine({
+          start: {
+            x: width/3  - 170,
+            y: hightCounter-35,},
+          end: {
+            x: width/3*3  - 330+290,
+            y: hightCounter-35,
+          }
+        })
+        hightCounter-=20;
+        if (hightCounter < 60) {
+
+          hightCounter = 820
+          page = pdfDoc.addPage()
+        }
+      }
 
       // Serialize the PDFDocument to bytes (a Uint8Array)
-      return await pdfDoc.save();
+      const pdfBytes = await pdfDoc.save();
+      updatePDF(pdfBytes);
+      return pdfBytes;
     };
 
     async function downloadPDF() {
       const pdfBytes = await createPdf();
-
       // Trigger the browser to download the PDF document
       download(pdfBytes, "pdf-lib_creation_example.pdf", "application/pdf");
     };
 
-    async function printPDF() {
-      const pdfBytes = await createPdf();
-
-      // Trigger the browser to download the PDF document
-      print(pdfBytes);
-    };
-    function init(){
+    async function init() {
         document.getElementById('downloadButton').onclick = downloadPDF;
-        document.getElementById('printButton').onclick = printPDF;
+        updatePDF(await createPdf());
+    }
+
+    function updatePDF(pdfBytes) {
+        let link = window.URL.createObjectURL(new Blob([pdfBytes], {type: "application/pdf"}));
+        PDFObject.embed(link, "#pdfObjectViewer");
     }
     window.onload = init;

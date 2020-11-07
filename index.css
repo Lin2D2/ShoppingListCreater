@@ -39,8 +39,8 @@ body {
     margin: 25px;
   }
 
-  div .row {
-    display: inline-block;
+  .row {
+    display: inline-flex;
     align-content: space-around;
   }
 
@@ -98,12 +98,14 @@ body {
     text-align: center;
     background-color: lightsalmon;
     border: none;
+    flex: 3;
   }
   
   table select {
     text-align: center;
     background-color: lightsalmon;
     border: none;
+    flex: 1;
   }
 
   table select option {

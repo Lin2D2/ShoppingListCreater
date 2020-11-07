@@ -2,7 +2,7 @@ const { PDFDocument, StandardFonts, rgb } = PDFLib
     const tableRow = `<tr>
     <td>
       <div class="row">
-        <input type="text" value="0">
+        <input type="text" placeholder="0">
         <select name="unit">
           <option value="st.">st.</option>
           <option value="g">g</option>
@@ -14,6 +14,17 @@ const { PDFDocument, StandardFonts, rgb } = PDFLib
     </td>
     <td><input type="text"></td>
     <td><input type="text"></td>
+    <td><select name="place">
+            <option value="beginn">vorne rechts</option>
+            <option value="beginn">mitte rechts</option>
+            <option value="beginn">hinten rechts</option>
+            <option value="beginn">hinten mitte</option>
+            <option value="beginn">mitte</option>
+            <option value="beginn">vorne mitte</option>
+            <option value="beginn">vorne links</option>
+            <option value="beginn">mitte links</option>
+            <option value="beginn">hinten links</option>
+          </select></td>
   </tr>`
     function append_row() {
       let tableBody = document.getElementById("tbody");
@@ -42,6 +53,9 @@ const { PDFDocument, StandardFonts, rgb } = PDFLib
       for (let child in tableChildren) {
         if (tableChildren[child].children != null) {
           let nummberValue = tableChildren[child].children[0].children[0].children[0].value;
+          if (nummberValue == "") {
+            nummberValue = "0";
+          }
           let select = tableChildren[child].children[0].children[0].children[1];
           let selectValue = select.options[select.selectedIndex].attributes[0].value;
           let typeValue = tableChildren[child].children[1].children[0].value;

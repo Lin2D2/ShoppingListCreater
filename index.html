@@ -20,12 +20,12 @@
     </div>
     <hr>
     <table id="table">
-      <thead><tr><th>Anzahl</th><th>Produkt</th><th>Beschreibung</th></tr></thead>
+      <thead><tr><th>Anzahl</th><th>Produkt</th><th>Beschreibung</th><th>Ort</th></tr></thead>
       <tbody id="tbody">
         <tr>
           <td>
             <div class="row">
-              <input type="text" value="0">
+              <input type="text" placeholder="0">
               <select name="unit">
                 <option value="st.">st.</option>
                 <option value="g">g</option>
@@ -37,6 +37,17 @@
           </td>
           <td><input type="text"></td>
           <td><input type="text"></td>
+          <td><select name="place">
+            <option value="beginn">vorne rechts</option>
+            <option value="beginn">mitte rechts</option>
+            <option value="beginn">hinten rechts</option>
+            <option value="beginn">hinten mitte</option>
+            <option value="beginn">mitte</option>
+            <option value="beginn">vorne mitte</option>
+            <option value="beginn">vorne links</option>
+            <option value="beginn">mitte links</option>
+            <option value="beginn">hinten links</option>
+          </select></td>
         </tr>
       </tbody>
     </table>
